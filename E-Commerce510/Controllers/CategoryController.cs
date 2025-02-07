@@ -15,12 +15,14 @@ namespace E_Commerce510.Controllers
             return View(categories.ToList());
         }
 
-        public IActionResult CreateNew()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
 
-        public IActionResult SaveNew(string categoryName)
+        [HttpPost]
+        public IActionResult Create(string categoryName)
         {
             if(categoryName != null)
             {
@@ -29,6 +31,58 @@ namespace E_Commerce510.Controllers
                     Name = categoryName
                 });
                 dbContext.SaveChanges();
+
+                TempData["notifation"] = "Add product successfuly";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("NotFoundPage", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int categoryId)
+        {
+            var category = dbContext.Categories.Find(categoryId);
+            if (category != null)
+            {
+                return View(category);
+            }
+
+            return RedirectToAction("NotFoundPage", "Home");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Category category)
+        {
+            if (category != null)
+            {
+                dbContext.Categories.Update(new Category()
+                {
+                    Id = category.Id,
+                    Name = category.Name
+                });
+                dbContext.SaveChanges();
+
+                TempData["notifation"] = "Update product successfuly";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return RedirectToAction("NotFoundPage", "Home");
+        }
+
+        public ActionResult Delete(int categoryId)
+        {
+            var category = dbContext.Categories.Find(categoryId);
+
+            if (category != null)
+            {
+                dbContext.Categories.Remove(category);
+                dbContext.SaveChanges();
+
+                TempData["notifation"] = "Delete product successfuly";
+
                 return RedirectToAction(nameof(Index));
             }
 
