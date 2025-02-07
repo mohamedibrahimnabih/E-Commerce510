@@ -29,21 +29,7 @@ namespace E_Commerce510.Controllers
 
             if (product != null)
             {
-                var productsWithSameCategory = dbContext.Products.Where(e => e.CategoryId == product.CategoryId).Skip(1).Take(4).ToList();
-
-                //var productsWithSameCategoryName = new ProductsWithSameCategoryName()
-                //{
-                //    Product = product,
-                //    ProductsWithSameCategory = productsWithSameCategory
-                //};
-
-                var productsWithSameCategoryName = new
-                {
-                    Product = product,
-                    ProductsWithSameCategory = productsWithSameCategory,
-                };
-
-                return View(productsWithSameCategoryName);
+                return View(product);
             }
 
             return RedirectToAction("NotFoundPage");
