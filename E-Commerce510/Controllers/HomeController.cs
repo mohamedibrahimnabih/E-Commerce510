@@ -2,6 +2,7 @@ using System.Diagnostics;
 using E_Commerce510.Data;
 using E_Commerce510.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce510.Controllers
 {
@@ -17,18 +18,32 @@ namespace E_Commerce510.Controllers
 
         public IActionResult Index()
         {
-            var products = dbContext.Products.ToList();
+            var products = dbContext.Products.Include(e => e.Category);
 
-            return View(products);
+            return View(products.ToList());
         }
 
-        public IActionResult Details(int proudctId)
+        public IActionResult Details(int productId)
         {
-            var product = dbContext.Products.Find(proudctId);
+            var product = dbContext.Products.Include(e => e.Category).FirstOrDefault(e => e.Id == productId);
 
             if (product != null)
             {
-                return View(product);
+                var productsWithSameCategory = dbContext.Products.Where(e => e.CategoryId == product.CategoryId).Skip(1).Take(4).ToList();
+
+                //var productsWithSameCategoryName = new ProductsWithSameCategoryName()
+                //{
+                //    Product = product,
+                //    ProductsWithSameCategory = productsWithSameCategory
+                //};
+
+                var productsWithSameCategoryName = new
+                {
+                    Product = product,
+                    ProductsWithSameCategory = productsWithSameCategory,
+                };
+
+                return View(productsWithSameCategoryName);
             }
 
             return RedirectToAction("NotFoundPage");
