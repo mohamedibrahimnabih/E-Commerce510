@@ -2,6 +2,7 @@
 
 namespace E_Commerce510.Controllers
 {
+    [Area("Customer")]
     public class WelcomeController : Controller
     {
         public IActionResult Home()

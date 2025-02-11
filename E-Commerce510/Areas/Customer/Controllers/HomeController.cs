@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce510.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -16,9 +17,40 @@ namespace E_Commerce510.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string productName, double minPrice, double maxPrice, int categoryId, bool isHot)
         {
-            var products = dbContext.Products.Include(e => e.Category);
+            IQueryable<Product> products = dbContext.Products.Include(e => e.Category);
+
+            if(productName != null)
+            {
+                products = products.Where(e=>e.Name.Contains(productName));
+            }
+
+            if(minPrice>0)
+            {
+                products = products.Where(e => e.Price > minPrice);
+            }
+
+            if (maxPrice > 0)
+            {
+                products = products.Where(e => e.Price < maxPrice);
+            }
+
+            if (categoryId > 0)
+            {
+                products = products.Where(e => e.CategoryId == categoryId);
+            }
+
+            //if(isHot)
+            //{
+            //    products = products.Where(e => e.Discount > 12);
+            //}
+
+            ViewBag.categories = dbContext.Categories.ToList();
+
+            ViewBag.ProductName = productName;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
 
             return View(products.ToList());
         }

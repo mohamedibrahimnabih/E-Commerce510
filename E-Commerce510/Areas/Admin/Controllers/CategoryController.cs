@@ -2,8 +2,9 @@
 using E_Commerce510.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace E_Commerce510.Controllers
+namespace E_Commerce510.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         ApplicationDbContext dbContext = new ApplicationDbContext();
@@ -24,7 +25,7 @@ namespace E_Commerce510.Controllers
         [HttpPost]
         public IActionResult Create(string categoryName)
         {
-            if(categoryName != null)
+            if (categoryName != null)
             {
                 dbContext.Categories.Add(new Category()
                 {

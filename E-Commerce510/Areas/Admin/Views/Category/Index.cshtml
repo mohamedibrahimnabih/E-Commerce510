@@ -13,7 +13,7 @@
         <div class="row mb-3">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="display-6 m-0">All Categories</h2>
-                <a href="/Category/Create" class="btn btn-success">
+                <a href="/Admin/Category/Create" class="btn btn-success">
                     <i class="bi bi-plus-square"></i> Create new category
                 </a>
             </div>
@@ -36,7 +36,7 @@
                                 <th scope="row">@item.Id</th>
                                 <td>@item.Name</td>
                                 <td>
-                                    <a href="/Category/Edit?categoryId=@item.Id" class="btn btn-warning rounded me-2">
+                                    <a href="/Admin/Category/Edit?categoryId=@item.Id" class="btn btn-warning rounded me-2">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                     <a href="#" class="btn btn-danger rounded delete-btn" data-bs-toggle="modal"
@@ -80,7 +80,7 @@
         deleteButtons.forEach(button => {
             button.addEventListener("click", function () {
                 let categoryId = this.getAttribute("data-category-id");
-                confirmDeleteLink.href = "/Category/Delete?categoryId=" + categoryId;
+                confirmDeleteLink.href = "/Admin/Category/Delete?categoryId=" + categoryId;
             });
         });
     });
