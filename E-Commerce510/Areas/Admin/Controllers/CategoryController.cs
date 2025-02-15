@@ -33,7 +33,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
                 });
                 dbContext.SaveChanges();
 
-                TempData["notifation"] = "Add product successfuly";
+                TempData["notifation"] = "Add category successfuly";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -65,7 +65,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
                 });
                 dbContext.SaveChanges();
 
-                TempData["notifation"] = "Update product successfuly";
+                TempData["notifation"] = "Update category successfuly";
 
                 return RedirectToAction(nameof(Index));
             }
@@ -82,7 +82,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
                 dbContext.Categories.Remove(category);
                 dbContext.SaveChanges();
 
-                TempData["notifation"] = "Delete product successfuly";
+                TempData["notifation"] = "Delete category successfuly";
 
                 return RedirectToAction(nameof(Index));
             }
