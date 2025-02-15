@@ -25,40 +25,44 @@ namespace E_Commerce510.Areas.Admin.Controllers
             var category = dbContext.Categories;
             ViewBag.Category = category;
 
-            return View();
+            return View(new Product());
         }
 
         [HttpPost]
         public IActionResult Create(Product product, IFormFile file)
         {
-            #region Save img into wwwroot
-            if (file != null && file.Length > 0)
+            ModelState.Remove("Img");
+            ModelState.Remove("file");
+            if(ModelState.IsValid)
             {
-                // File Name, File Path
-                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", fileName);
-
-                // Copy Img to file
-                using (var stream = System.IO.File.Create(filePath))
+                #region Save img into wwwroot
+                if (file != null && file.Length > 0)
                 {
-                    file.CopyTo(stream);
+                    // File Name, File Path
+                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images", fileName);
+
+                    // Copy Img to file
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    // Save img into db
+                    product.Img = fileName;
                 }
+                #endregion
 
-                // Save img into db
-                product.Img = fileName;
-            }
-            #endregion
-
-            if (product != null)
-            {
                 dbContext.Products.Add(product);
                 dbContext.SaveChanges();
                 TempData["notifation"] = "Add product successfuly";
-
                 return RedirectToAction(nameof(Index));
+
             }
 
-            return RedirectToAction("NotFoundPage", "Home");
+            var category = dbContext.Categories;
+            ViewBag.Category = category;
+            return View(product);
         }
 
         public IActionResult Edit(int productId)

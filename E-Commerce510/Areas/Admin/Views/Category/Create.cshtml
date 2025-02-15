@@ -1,4 +1,6 @@
-﻿<div class="container my-3">
+﻿@model Category
+
+<div class="container my-3">
     <div class="row mb-3">
         <div class="d-flex justify-content-between align-content-center">
             <div class="display-6"><a href="/Category/Index"><i class="bi bi-arrow-left text-dark"></i></a> Create New Category</div>
@@ -9,7 +11,8 @@
         <form action="/Admin/Category/Create" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Category Name</label>
-                <input type="text" class="form-control" id="name" name="categoryName">
+                <input type="text" class="form-control" id="name" name="Name" value="@Model.Name">
+                <span class="text-danger" asp-validation-for="Name"></span>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>

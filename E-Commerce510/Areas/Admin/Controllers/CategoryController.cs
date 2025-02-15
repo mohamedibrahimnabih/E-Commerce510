@@ -19,18 +19,17 @@ namespace E_Commerce510.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            return View(new Category());
         }
 
         [HttpPost]
-        public IActionResult Create(string categoryName)
+        public IActionResult Create(Category category)
         {
-            if (categoryName != null)
+            //ModelState.Remove("Products");
+
+            if(ModelState.IsValid)
             {
-                dbContext.Categories.Add(new Category()
-                {
-                    Name = categoryName
-                });
+                dbContext.Categories.Add(category);
                 dbContext.SaveChanges();
 
                 TempData["notifation"] = "Add category successfuly";
@@ -38,7 +37,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return RedirectToAction("NotFoundPage", "Home");
+            return View(category);
         }
 
         [HttpGet]
