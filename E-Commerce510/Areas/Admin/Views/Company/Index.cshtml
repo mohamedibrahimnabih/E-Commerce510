@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Category>
+﻿@model IEnumerable<Company>
 
 @section Scripts {
     @if (TempData["notifation"] != null)
@@ -14,9 +14,9 @@
     <div class="container-fluid">
         <div class="row mb-3">
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="display-6 m-0">All Categories</h2>
-                <a href="/Admin/Category/Create" class="btn btn-success">
-                    <i class="bi bi-plus-square"></i> Create new category
+                <h2 class="display-6 m-0">All Companies</h2>
+                <a href="/Admin/Company/Create" class="btn btn-success">
+                    <i class="bi bi-plus-square"></i> Create new company
                 </a>
             </div>
         </div>
@@ -28,6 +28,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Scale</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -37,12 +38,13 @@
                             <tr>
                                 <th scope="row">@item.Id</th>
                                 <td>@item.Name</td>
+                                <td>@item.Scale</td>
                                 <td>
-                                    <a href="/Admin/Category/Edit?categoryId=@item.Id" asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-categoryId="Id" class="btn btn-warning rounded me-2">
+                                    <a href="/Admin/Company/Edit?companyId=@item.Id" class="btn btn-warning rounded me-2">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
                                     <a href="#" class="btn btn-danger rounded delete-btn" data-bs-toggle="modal"
-                                       data-bs-target="#deleteModal" data-category-id="@item.Id">
+                                       data-bs-target="#deleteModal" data-company-id="@item.Id">
                                         <i class="bi bi-trash3-fill"></i> Delete
                                     </a>
                                 </td>
@@ -64,7 +66,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Are you sure you want to delete this category?
+                Are you sure you want to delete this company?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -81,8 +83,8 @@
 
         deleteButtons.forEach(button => {
             button.addEventListener("click", function () {
-                let categoryId = this.getAttribute("data-category-id");
-                confirmDeleteLink.href = "/Admin/Category/Delete?categoryId=" + categoryId;
+                let companyId = this.getAttribute("data-company-id");
+                confirmDeleteLink.href = "/Admin/Company/Delete?companyId=" + companyId;
             });
         });
     });

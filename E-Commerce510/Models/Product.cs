@@ -23,8 +23,11 @@ namespace E_Commerce510.Models
         public double Discount { get; set; }
 
         public int CategoryId { get; set; }
+        public int? CompanyId { get; set; }
+
         [ValidateNever]
 
         public Category Category { get; set; }
+        public Company Company { get; set; }
     }
 }
