@@ -85,7 +85,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         {
             #region Save img into wwwroot
             var productInDb = dbContext.Products.AsNoTracking().FirstOrDefault(e => e.Id == product.Id);
-
+            
             if (file != null && file.Length > 0)
             {
                 // File Name, File Path

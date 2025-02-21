@@ -1,5 +1,6 @@
 ﻿using E_Commerce510.Data;
 using E_Commerce510.Models;
+using E_Commerce510.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce510.Areas.Admin.Controllers
@@ -7,11 +8,13 @@ namespace E_Commerce510.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        ApplicationDbContext dbContext = new ApplicationDbContext();
+        //ApplicationDbContext dbContext = new ApplicationDbContext();
+
+        CategoryRepository categoryRepository = new CategoryRepository();
 
         public IActionResult Index()
         {
-            var categories = dbContext.Categories;
+            var categories = categoryRepository.Get();
             //
             return View(categories.ToList());
         }
@@ -29,8 +32,8 @@ namespace E_Commerce510.Areas.Admin.Controllers
 
             if(ModelState.IsValid)
             {
-                dbContext.Categories.Add(category);
-                dbContext.SaveChanges();
+                categoryRepository.Create(category);
+                categoryRepository.Commit();
 
                 TempData["notifation"] = "Add category successfuly";
 
@@ -43,7 +46,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int categoryId)
         {
-            var category = dbContext.Categories.Find(categoryId);
+            var category = categoryRepository.GetOne(e => e.Id == categoryId);
             if (category != null)
             {
                 return View(category);
@@ -57,12 +60,8 @@ namespace E_Commerce510.Areas.Admin.Controllers
         {
             if (category != null)
             {
-                dbContext.Categories.Update(new Category()
-                {
-                    Id = category.Id,
-                    Name = category.Name
-                });
-                dbContext.SaveChanges();
+                categoryRepository.Edit(category);
+                categoryRepository.Commit();
 
                 TempData["notifation"] = "Update category successfuly";
 
@@ -74,12 +73,12 @@ namespace E_Commerce510.Areas.Admin.Controllers
 
         public ActionResult Delete(int categoryId)
         {
-            var category = dbContext.Categories.Find(categoryId);
+            var category = categoryRepository.GetOne(e => e.Id == categoryId);
 
             if (category != null)
             {
-                dbContext.Categories.Remove(category);
-                dbContext.SaveChanges();
+                categoryRepository.Delete(category);
+                categoryRepository.Commit();
 
                 TempData["notifation"] = "Delete category successfuly";
 
