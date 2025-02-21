@@ -2,42 +2,49 @@
 using E_Commerce510.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace E_Commerce510.Repositories
 {
-    public class CategoryRepository
+    public class Repository<T> where T : class
     {
         ApplicationDbContext _dbContext = new ApplicationDbContext();
+        public DbSet<T> dbSet;
+
+        public Repository()
+        {
+            dbSet = _dbContext.Set<T>();
+        }
 
         // CRUD
-        public void Create(Category category)
+        public void Create(T entity)
         {
-            _dbContext.Categories.Add(category);
+            dbSet.Add(entity);
         }
-        public void CreateAll(List<Category> categories)
+        public void CreateAll(List<T> entities)
         {
-            _dbContext.Categories.AddRange(categories);
+            dbSet.AddRange(entities);
         }
-        public void Edit(Category category)
+        public void Edit(T entity)
         {
-            _dbContext.Categories.Update(category);
+            dbSet.Update(entity);
         }
-        public void Delete(Category category)
+        public void Delete(T entity)
         {
-            _dbContext.Categories.Remove(category);
+            dbSet.Remove(entity);
         }
-        public void DeleteAll(List<Category> categories)
+        public void DeleteAll(List<T> entities)
         {
-            _dbContext.Categories.RemoveRange(categories);
+            dbSet.RemoveRange(entities);
         }
         public void Commit()
         {
             _dbContext.SaveChanges();
         }
 
-        public IQueryable<Category> Get(Expression<Func<Category, bool>>? filter = null, Expression<Func<Category, object>>[]? includes = null, bool tracked = true)
+        public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Expression<Func<T, object>>[]? includes = null, bool tracked = true)
         {
-            IQueryable<Category> query = _dbContext.Categories;
+            IQueryable<T> query = dbSet;
 
             if (filter != null)
             {
@@ -60,7 +67,7 @@ namespace E_Commerce510.Repositories
             return query;
         }
 
-        public Category? GetOne(Expression<Func<Category, bool>>? filter = null, Expression<Func<Category, object>>[]? includes = null, bool tracked = true)
+        public T? GetOne(Expression<Func<T, bool>>? filter = null, Expression<Func<T, object>>[]? includes = null, bool tracked = true)
         {
             return Get(filter, includes, tracked).FirstOrDefault();
         }

@@ -1,5 +1,6 @@
 ﻿using E_Commerce510.Data;
 using E_Commerce510.Models;
+using E_Commerce510.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce510.Areas.Admin.Controllers
@@ -7,11 +8,13 @@ namespace E_Commerce510.Areas.Admin.Controllers
     [Area("Admin")]
     public class CompanyController : Controller
     {
-        ApplicationDbContext dbContext = new ApplicationDbContext();
+        //ApplicationDbContext dbContext = new ApplicationDbContext();
+
+        CompanyRepository companyRepository = new CompanyRepository();
 
         public IActionResult Index()
         {
-            var companies = dbContext.Companies.ToList();
+            var companies = companyRepository.Get();
 
             return View(companies);
         }
@@ -30,8 +33,8 @@ namespace E_Commerce510.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                dbContext.Companies.Add(company);
-                dbContext.SaveChanges();
+                companyRepository.Create(company);
+                companyRepository.Commit();
 
                 TempData["notifation"] = "Add company successfuly";
 
@@ -44,7 +47,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Edit(int companyId)
         {
-            var company = dbContext.Companies.Find(companyId);
+            var company = companyRepository.GetOne(e => e.Id == companyId);
             if (company != null)
             {
                 return View(company);
@@ -59,14 +62,8 @@ namespace E_Commerce510.Areas.Admin.Controllers
         {
             if (company != null)
             {
-                dbContext.Companies.Update(new Company()
-                {
-                    Id = company.Id,
-                    Name = company.Name,
-                    Description = company.Description,
-                    Scale = company.Scale
-                });
-                dbContext.SaveChanges();
+                companyRepository.Edit(company);
+                companyRepository.Commit();
 
                 TempData["notifation"] = "Update company successfuly";
 
