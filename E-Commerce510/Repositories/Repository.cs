@@ -3,17 +3,18 @@ using E_Commerce510.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using System.Linq;
+using E_Commerce510.Repositories.IRepositories;
 
 namespace E_Commerce510.Repositories
 {
-    public class Repository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
-        ApplicationDbContext _dbContext = new ApplicationDbContext();
         public DbSet<T> dbSet;
-
-        public Repository()
+        private readonly ApplicationDbContext _dbContext;
+        public Repository(ApplicationDbContext dbContext)
         {
             dbSet = _dbContext.Set<T>();
+            this._dbContext = dbContext;
         }
 
         // CRUD

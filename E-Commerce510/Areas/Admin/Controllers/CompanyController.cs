@@ -1,6 +1,7 @@
 ﻿using E_Commerce510.Data;
 using E_Commerce510.Models;
 using E_Commerce510.Repositories;
+using E_Commerce510.Repositories.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce510.Areas.Admin.Controllers
@@ -10,7 +11,13 @@ namespace E_Commerce510.Areas.Admin.Controllers
     {
         //ApplicationDbContext dbContext = new ApplicationDbContext();
 
-        CompanyRepository companyRepository = new CompanyRepository();
+        //CompanyRepository companyRepository;// = new CompanyRepository();
+        ICompanyRepository companyRepository;// = new CompanyRepository();
+
+        public CompanyController(ICompanyRepository companyRepository)
+        {
+            this.companyRepository = companyRepository;
+        }
 
         public IActionResult Index()
         {

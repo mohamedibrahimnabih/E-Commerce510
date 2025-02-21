@@ -1,3 +1,8 @@
+using E_Commerce510.Data;
+using E_Commerce510.Repositories;
+using E_Commerce510.Repositories.IRepositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace E_Commerce510
 {
     public class Program
@@ -8,6 +13,11 @@ namespace E_Commerce510
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 
             var app = builder.Build();
 

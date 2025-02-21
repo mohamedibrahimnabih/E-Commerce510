@@ -9,6 +9,17 @@ namespace E_Commerce510.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Company> Companies { get; set; }
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+        {
+        }
+
+        // legacy Code
+        public ApplicationDbContext()
+        {
+            
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
