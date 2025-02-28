@@ -1,6 +1,8 @@
 using E_Commerce510.Data;
+using E_Commerce510.Models;
 using E_Commerce510.Repositories;
 using E_Commerce510.Repositories.IRepositories;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce510
@@ -17,7 +19,17 @@ namespace E_Commerce510
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = false;
+                options.SignIn.RequireConfirmedEmail = false;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
             builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             var app = builder.Build();
 
