@@ -21,33 +21,6 @@ namespace E_Commerce510.Areas.Identity.Contollers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterVM registerVM)
-        {
-            if(ModelState.IsValid)
-            {
-                ApplicationUser applicationUser = new()
-                {
-                    UserName = registerVM.UserName,
-                    Email = registerVM.Email,
-                    PasswordHash = registerVM.Password,
-                    Address = registerVM.Address
-                };
-
-                var result = await userManager.CreateAsync(applicationUser);
-
-                if(!result.Succeeded)
-                {
-                    return View(registerVM);
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home", new { area = "Customer" });
-                }
-            }
-
-            return View(registerVM);
-        }
+        
     }
 }
