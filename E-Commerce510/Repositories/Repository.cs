@@ -13,8 +13,8 @@ namespace E_Commerce510.Repositories
         private readonly ApplicationDbContext _dbContext;
         public Repository(ApplicationDbContext dbContext)
         {
-            dbSet = _dbContext.Set<T>();
             this._dbContext = dbContext;
+            dbSet = _dbContext.Set<T>();
         }
 
         // CRUD

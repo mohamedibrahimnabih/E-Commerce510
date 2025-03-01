@@ -20,6 +20,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         {
             var categories = categoryRepository.Get();
             //
+
             return View(categories.ToList());
         }
 
@@ -39,7 +40,13 @@ namespace E_Commerce510.Areas.Admin.Controllers
                 categoryRepository.Create(category);
                 categoryRepository.Commit();
 
-                TempData["notifation"] = "Add category successfuly";
+                //TempData["notifation"] = "Add category successfuly";
+                CookieOptions cookieOptions = new()
+                {
+                    Expires = DateTime.Now.AddSeconds(10)
+                };
+
+                Response.Cookies.Append("notifation", "Add category successfuly", cookieOptions);
 
                 return RedirectToAction(nameof(Index));
             }

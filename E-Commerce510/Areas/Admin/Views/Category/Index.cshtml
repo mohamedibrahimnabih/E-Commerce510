@@ -1,12 +1,9 @@
 ﻿@model IEnumerable<Category>
 
 @section Scripts {
-    @if (TempData["notifation"] != null)
-    {
         <script>
-            toastr.success('@TempData["notifation"]')
+        toastr.success('@Context.Request.Cookies["notifation"]')
         </script>
-    }
 }
 
 
