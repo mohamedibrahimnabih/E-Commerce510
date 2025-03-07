@@ -2,6 +2,7 @@
 using E_Commerce510.Models.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace E_Commerce510.Areas.Identity.Contollers
@@ -11,16 +12,26 @@ namespace E_Commerce510.Areas.Identity.Contollers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
+            if(roleManager.Roles.IsNullOrEmpty())
+            {
+                await roleManager.CreateAsync(new IdentityRole("SuperAdmin"));
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole("Company"));
+                await roleManager.CreateAsync(new IdentityRole("Customer"));
+            }
+
             return View();
         }
 
@@ -96,6 +107,12 @@ namespace E_Commerce510.Areas.Identity.Contollers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login", "Account", new { area = "Identity" });
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
