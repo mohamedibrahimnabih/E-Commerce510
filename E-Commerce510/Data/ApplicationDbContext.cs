@@ -10,6 +10,7 @@ namespace E_Commerce510.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Cart> Carts { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -28,8 +29,14 @@ namespace E_Commerce510.Data
 
             optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=E-Commerce510;Integrated Security=True;TrustServerCertificate=True");
         }
-        public DbSet<E_Commerce510.Models.ViewModel.RegisterVM> RegisterVM { get; set; } = default!;
-        public DbSet<E_Commerce510.Models.ViewModel.LoginVM> LoginVM { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            //builder.Entity<Cart>()
+            //    .HasKey(e => new { e.ProductId, e.ApplicationUserId });
+        }
 
     }
 }
