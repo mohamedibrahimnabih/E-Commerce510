@@ -2,6 +2,7 @@
 using E_Commerce510.Models;
 using E_Commerce510.Repositories;
 using E_Commerce510.Repositories.IRepositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce510.Areas.Admin.Controllers
@@ -25,6 +26,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Create()
         {
             return View(new Category());
@@ -55,6 +57,7 @@ namespace E_Commerce510.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public IActionResult Edit(int categoryId)
         {
             var category = categoryRepository.GetOne(e => e.Id == categoryId);

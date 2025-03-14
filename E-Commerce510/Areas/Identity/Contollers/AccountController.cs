@@ -41,14 +41,14 @@ namespace E_Commerce510.Areas.Identity.Contollers
         {
             if(ModelState.IsValid)
             {
-                ApplicationUser applicationUser = new()
-                {
-                    UserName = registerVM.UserName,
-                    Email = registerVM.Email,
-                    Address = registerVM.Address
-                };
+                ApplicationUser applicationUser = new();
+
+                applicationUser.UserName = registerVM.UserName;
+                applicationUser.Email = registerVM.UserName;
+                applicationUser.Address = registerVM.UserName;
 
                 var result = await userManager.CreateAsync(applicationUser, registerVM.Password);
+                await userManager.AddToRoleAsync(applicationUser, "Customer");
 
                 if(!result.Succeeded)
                 {
