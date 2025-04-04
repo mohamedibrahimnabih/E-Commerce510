@@ -4,19 +4,18 @@ using E_Commerce510.Repositories.IRepositories;
 
 namespace E_Commerce510.Repositories
 {
-    public class CartRepository : Repository<Cart>, ICartRepository
+    public class OrderItemRepository : Repository<OrderItem>, IOrderItemRepository
     {
         private readonly ApplicationDbContext dbContext;
 
-        public CartRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public OrderItemRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public void DeleteAll(List<Cart> entities)
+        public void CreateAll(List<OrderItem> entities)
         {
-            dbContext.RemoveRange(entities);
-
+            dbSet.AddRange(entities);
         }
     }
 }

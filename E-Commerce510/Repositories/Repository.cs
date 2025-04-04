@@ -22,10 +22,6 @@ namespace E_Commerce510.Repositories
         {
             dbSet.Add(entity);
         }
-        public void CreateAll(List<T> entities)
-        {
-            dbSet.AddRange(entities);
-        }
         public void Edit(T entity)
         {
             dbSet.Update(entity);
@@ -33,10 +29,6 @@ namespace E_Commerce510.Repositories
         public void Delete(T entity)
         {
             dbSet.Remove(entity);
-        }
-        public void DeleteAll(List<T> entities)
-        {
-            dbSet.RemoveRange(entities);
         }
         public void Commit()
         {

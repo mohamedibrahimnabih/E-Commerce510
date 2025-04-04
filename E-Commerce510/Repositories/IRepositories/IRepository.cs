@@ -8,10 +8,8 @@ namespace E_Commerce510.Repositories.IRepositories
     {
         // CRUD
         public void Create(T entity);
-        public void CreateAll(List<T> entities);
         public void Edit(T entity);
         public void Delete(T entity);
-        public void DeleteAll(List<T> entities);
         public void Commit();
 
         public IQueryable<T> Get(Expression<Func<T, bool>>? filter = null, Expression<Func<T, object>>[]? includes = null, bool tracked = true);
