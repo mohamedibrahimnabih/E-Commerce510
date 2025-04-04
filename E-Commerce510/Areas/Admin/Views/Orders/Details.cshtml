@@ -1,0 +1,36 @@
+﻿@model E_Commerce510.Models.ViewModel.OrderWithItems
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>OrderWithItems</h4>
+    <hr />
+    <div class="row">
+        <div class="card-group">
+            @foreach(var item in Model.OrderItems)
+            {
+                <div class="card">
+                    <img src="~/images/@item.Product.Img" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    </div>
+                    <div class="card-footer">
+                        @if(item.Order.Status != OrderStatus.Shipped)
+                        {
+                            <a class="btn btn-danger" asp-action="Refund" asp-route-orderId="@item.OrderId">Refund</a>
+                        }
+                    </div>
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
